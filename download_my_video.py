@@ -195,6 +195,16 @@ def process_one(url: str, browser: str, output_dir: Path) -> bool:
         download(clean_url, video_id, browser, output_dir)
         return True
     except RuntimeError as e:
+        # Our own safety-check failures (wrong video resolved, playlist
+        # detected instead of a single video, etc.) - see download().
+        print(f"Error downloading {clean_url}: {e}")
+        return False
+    except yt_dlp.utils.DownloadError as e:
+        # yt-dlp's own extraction/download failures - e.g. "This video is
+        # unavailable" (deleted/private/region-locked/bad ID), network
+        # errors, etc. Previously uncaught here, which crashed the entire
+        # batch run on the first bad video instead of skipping it and
+        # continuing with the rest of the list.
         print(f"Error downloading {clean_url}: {e}")
         return False
 
