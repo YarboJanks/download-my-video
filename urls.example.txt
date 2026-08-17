@@ -1,0 +1,4 @@
+# One YouTube URL per line. Blank lines and '#'-comments are ignored.
+# Copy this file to urls.txt (gitignored) and fill in your own URLs, then run:
+#   python3 download_my_video.py --batch-file urls.txt --browser chrome
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
